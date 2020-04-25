@@ -3,7 +3,6 @@ library(RSelenium)
 library(tidyverse)
 library(wdman)
 
-# app_url <- "https://apps.apple.com/us/app/bit-trainer/id1341356525"
 appstore_url <- "https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580#see-all/reviews"
 
 eCaps <- list(chromeOptions = list(
@@ -20,7 +19,6 @@ rD<- rsDriver(port = 4567L, browser = c("chrome"), verbose=TRUE, version = "3.14
 remDr <- rD$client
 
 #navigate to your page
-#remDr$navigate("https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580#see-all/reviews")
 remDr$navigate(appstore_url)
 #scroll down 5 times, waiting for the page to load at each time
 for(i in 1:5){
@@ -31,7 +29,6 @@ for(i in 1:5){
 
 #get the page html
 remDr$getPageSource()[[1]]
-
 page_source<-remDr$getPageSource()
 
 main_page<-read_html(unlist(remDr$getPageSource()),encoding="UTF-8")
