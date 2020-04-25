@@ -1,1 +1,7 @@
-*.Rhistory
+.Rhistory
+.Rapp.history
+
+.RData
+
+*_cache/
+/cache/
