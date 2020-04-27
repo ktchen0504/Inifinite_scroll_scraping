@@ -52,7 +52,6 @@ review_result <- data.frame(title = review_author,
                             rating = review_tags)
 
 remDr$close()
-#rD$server$stop()
 rm(remDr, rD)
 gc()
 
