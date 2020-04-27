@@ -3,12 +3,12 @@ library(RSelenium)
 library(tidyverse)
 library(wdman)
 
-appstore_url <- "https://apps.apple.com/us/app/spotify-music-and-podcasts/id324684580#see-all/reviews"
+appstore_url <- "http://quotes.toscrape.com/scroll"
 
-eCaps <- list(chromeOptions = list(
-  args = c('--headless', '--window-size=1280,800'),
-  binary = "C:/Program Files (x86)/Google/Chrome/Application/Chrome.exe"
-))
+# eCaps <- list(chromeOptions = list(
+#   args = c('--headless', '--window-size=1280,800'),
+#   binary = "C:/Program Files (x86)/Google/Chrome/Application/Chrome.exe"
+# ))
 
 ##-- Instead of using "latest" for version, put the version number
 ##-- solve the issue chrome driver was not able to support version 81
@@ -32,29 +32,24 @@ remDr$getPageSource()[[1]]
 page_source<-remDr$getPageSource()
 
 main_page<-read_html(unlist(remDr$getPageSource()),encoding="UTF-8")
-app_review_title <- main_page %>%
-  html_nodes(".we-customer-review__title") %>%
+review_author <- main_page %>%
+  html_nodes(".author") %>%
   html_text() %>%
   str_trim() 
 
-app_review_text <- main_page %>%
-  html_nodes(".we-customer-review__body") %>%
+review_text <- main_page %>%
+  html_nodes(".quote") %>%
   html_text() %>%
   str_trim()
 
-app_review_star <- main_page %>%
-  html_nodes(".we-star-rating") %>%
-  html_attrs() %>%
-  map(1) %>%
-  word(1)
+review_tags <- main_page %>%
+  html_nodes(".tags") %>%
+  html_text() %>%
+  str_trim()
 
-app_review_title
-app_review_text 
-as.numeric(app_review_star)
-
-app_review_result <- data.frame(title = app_review_title, 
-                                content = app_review_text, 
-                                rating = as.numeric(app_review_star) )
+review_result <- data.frame(title = review_author, 
+                            content = review_text, 
+                            rating = review_tags)
 
 remDr$close()
 #rD$server$stop()
